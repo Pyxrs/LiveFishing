@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "fishing",
+  "version": "${version}",
+
+  "name": "Live Fishing",
+  "description": "live fishing",
+  "authors": [
+    "SimplyCmd"
+  ],
+  "contact": {
+    "homepage": "https://simplycmd.github.io/livefishing/",
+    "sources": "https://github.com/SimplyCmd/livefishing"
+  },
+
+  "license": "MIT",
+  "icon": "assets/fishing/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.simplycmd.fishing.Main"
+    ]
+  },
+  "mixins": [
+    "fishing.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  },
+  "suggests": {
+  }
+}
