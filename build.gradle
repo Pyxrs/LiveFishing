@@ -3,10 +3,6 @@ plugins {
 	id 'maven-publish'
 }
 
-minecraft {
-	accessWidener = file("src/main/resources/camping.accesswidener")
-}
-
 sourceCompatibility = JavaVersion.VERSION_16
 targetCompatibility = JavaVersion.VERSION_16
 
