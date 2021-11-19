@@ -18,9 +18,6 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "io.github.simplycmd.fishing.Main"
-    ]
   },
   "mixins": [
     "fishing.mixins.json"
