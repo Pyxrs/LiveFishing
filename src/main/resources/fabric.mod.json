@@ -6,7 +6,12 @@
   "name": "Live Fishing",
   "description": "live fishing",
   "authors": [
-    "SimplyCmd"
+    {
+      "name": "SimplyCmd",
+      "contact": {
+        "homepage": "https://simplycmd.github.io/"
+      }
+    }
   ],
   "contributors": [
     {
