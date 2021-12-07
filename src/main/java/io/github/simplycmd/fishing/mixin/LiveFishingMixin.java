@@ -1,8 +1,11 @@
 package io.github.simplycmd.fishing.mixin;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import io.github.simplycmd.fishing.data.FishManager;
+import net.minecraft.entity.ExperienceOrbEntity;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -26,8 +29,9 @@ public class LiveFishingMixin {
             index = 0
     )
     private Entity spawnFish(Entity original) {
+        if (original instanceof ExperienceOrbEntity) return original;
         final FishingBobberEntity self = ((FishingBobberEntity) (Object) this);
-        final PlayerEntity user = self.getPlayerOwner();
+        final PlayerEntity user = Objects.requireNonNull(self.getPlayerOwner());
         final ItemEntity originalItem = ((ItemEntity) original);
         final Item item = originalItem.getStack().getItem();
         final ItemStack mainHandItem = user.getMainHandStack();
@@ -61,12 +65,12 @@ public class LiveFishingMixin {
 
             // Attempt to get rid of fishing bobber manually because killing it didnt work
             user.fishHook = null;
-            self.teleport(0, 1000, 0);
+            self.remove(Entity.RemovalReason.DISCARDED);
 
             return fish.get();
         } else {
             user.fishHook = null;
-            self.teleport(0, 1000, 0);
+            self.remove(Entity.RemovalReason.DISCARDED);
             return original;
         }
     }

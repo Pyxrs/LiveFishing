@@ -8,6 +8,14 @@
   "authors": [
     "SimplyCmd"
   ],
+  "contributors": [
+    {
+      "name": "Jab125",
+      "contact": {
+        "homepage": "https://www.jab125.com/"
+      }
+    }
+  ],
   "contact": {
     "homepage": "https://simplycmd.github.io/live-fishing/",
     "sources": "https://github.com/SimplyCmd/live-fishing"
