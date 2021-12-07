@@ -1,0 +1,37 @@
+{
+  "replace": false,
+  "fishing": [
+    {
+      "type": "fishing:basic",
+      "item": {
+        "item": "minecraft:cod",
+        "count": 1
+      },
+      "entity": "minecraft:cod"
+    },
+    {
+      "type": "fishing:basic",
+      "item": {
+        "item": "minecraft:salmon",
+        "count": 1
+      },
+      "entity": "minecraft:salmon"
+    },
+    {
+      "type": "fishing:basic",
+      "item": {
+        "item": "minecraft:tropical_fish",
+        "count": 1
+      },
+      "entity": "minecraft:tropical_fish"
+    },
+    {
+      "type": "fishing:basic",
+      "item": {
+        "item": "minecraft:pufferfish",
+        "count": 1
+      },
+      "entity": "minecraft:pufferfish"
+    }
+  ]
+}

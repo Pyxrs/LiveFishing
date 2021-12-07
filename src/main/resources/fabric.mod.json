@@ -6,7 +6,20 @@
   "name": "Live Fishing",
   "description": "live fishing",
   "authors": [
-    "SimplyCmd"
+    {
+      "name": "SimplyCmd",
+      "contact": {
+        "homepage": "https://simplycmd.github.io/"
+      }
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Jab125",
+      "contact": {
+        "homepage": "https://www.jab125.com/"
+      }
+    }
   ],
   "contact": {
     "homepage": "https://simplycmd.github.io/live-fishing/",
@@ -18,6 +31,9 @@
 
   "environment": "*",
   "entrypoints": {
+    "main": [
+      "io.github.simplycmd.fishing.Fishing"
+    ]
   },
   "mixins": [
     "fishing.mixins.json"

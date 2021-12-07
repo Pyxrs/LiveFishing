@@ -1,25 +1,23 @@
 package io.github.simplycmd.fishing.mixin;
 
+import java.util.Objects;
 import java.util.Optional;
 
+import io.github.simplycmd.fishing.data.FishManager;
+import net.minecraft.entity.ExperienceOrbEntity;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import io.github.simplycmd.fishing.ItemTags;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.passive.CodEntity;
 import net.minecraft.entity.passive.FishEntity;
-import net.minecraft.entity.passive.PufferfishEntity;
-import net.minecraft.entity.passive.SalmonEntity;
-import net.minecraft.entity.passive.TropicalFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
@@ -31,14 +29,15 @@ public class LiveFishingMixin {
             index = 0
     )
     private Entity spawnFish(Entity original) {
+        if (original instanceof ExperienceOrbEntity) return original;
         final FishingBobberEntity self = ((FishingBobberEntity) (Object) this);
-        final PlayerEntity user = self.getPlayerOwner();
+        final PlayerEntity user = Objects.requireNonNull(self.getPlayerOwner());
         final ItemEntity originalItem = ((ItemEntity) original);
         final Item item = originalItem.getStack().getItem();
         final ItemStack mainHandItem = user.getMainHandStack();
         final ItemStack offHandItem = user.getOffHandStack();
 
-        Optional<FishEntity> fish;
+        Optional<Entity> fish;
 
         // Damage fishing rods
         if (ItemTags.FISHING_RODS.contains(mainHandItem.getItem())) {
@@ -66,22 +65,21 @@ public class LiveFishingMixin {
 
             // Attempt to get rid of fishing bobber manually because killing it didnt work
             user.fishHook = null;
-            self.teleport(0, 1000, 0);
+            self.remove(Entity.RemovalReason.DISCARDED);
 
             return fish.get();
         } else {
             user.fishHook = null;
-            self.teleport(0, 1000, 0);
+            self.remove(Entity.RemovalReason.DISCARDED);
             return original;
         }
     }
 
-    private static Optional<FishEntity> matchFishEntity(World world, Item item) {
+    private static Optional<Entity> matchFishEntity(World world, Item item) {
         // Hardcoded because I couldn't think of a better way; can't use switch statements because this uses items
-        if (item.equals(Items.COD)) return Optional.of(new CodEntity(EntityType.COD, world));
-        else if (item.equals(Items.SALMON)) return Optional.of(new SalmonEntity(EntityType.SALMON, world));
-        else if (item.equals(Items.TROPICAL_FISH)) return Optional.of(new TropicalFishEntity(EntityType.TROPICAL_FISH, world));
-        else if (item.equals(Items.PUFFERFISH)) return Optional.of(new PufferfishEntity(EntityType.PUFFERFISH, world));
+        if (FishManager.manager().getFish(item) != null) {
+            return Optional.ofNullable(FishManager.manager().getFish(item).fish().create(world));
+        }
         else return Optional.empty();
     }
 }
