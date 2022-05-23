@@ -37,9 +37,9 @@ public class LiveFishingMixin {
         Optional<Entity> fish;
 
         // Damage fishing rods
-        if (ItemTags.FISHING_RODS.contains(mainHandItem.getItem())) {
+        if (mainHandItem.isIn(ItemTags.FISHING_RODS)) {
             mainHandItem.damage(1, user, (p) -> p.sendToolBreakStatus(Hand.MAIN_HAND));
-        } else if (ItemTags.FISHING_RODS.contains(offHandItem.getItem())) {
+        } else if (offHandItem.isIn(ItemTags.FISHING_RODS)) {
             offHandItem.damage(1, user, (p) -> p.sendToolBreakStatus(Hand.OFF_HAND));
         }
 
