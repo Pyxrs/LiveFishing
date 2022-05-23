@@ -1,25 +1,22 @@
 package io.github.simplycmd.fishing.mixin;
 
-import java.util.Objects;
-import java.util.Optional;
-
-import io.github.simplycmd.fishing.data.FishManager;
-import net.minecraft.entity.ExperienceOrbEntity;
-import org.jetbrains.annotations.NotNull;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-
 import io.github.simplycmd.fishing.ItemTags;
+import io.github.simplycmd.fishing.data.FishManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.passive.FishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+
+import java.util.Objects;
+import java.util.Optional;
 
 @Mixin(FishingBobberEntity.class)
 public class LiveFishingMixin {
