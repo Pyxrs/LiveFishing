@@ -25,10 +25,16 @@
       "contact": {
         "homepage": "https://gitlab.com/supersaiyansubtlety"
       }
+    },
+    {
+      "name": "OffsetMonkey538",
+      "contact": {
+        "homepage": "https://github.com/OffsetMonkey538"
+      }
     }
   ],
   "contact": {
-    "homepage": "https://simplycmd.github.io/live-fishing/",
+    "homepage": "https://simplycmd.com/live-fishing/",
     "sources": "https://github.com/SimplyCmd/live-fishing"
   },
 
