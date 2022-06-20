@@ -26,14 +26,14 @@ public class FishManager implements SimpleSynchronousResourceReloadListener {
     private static final Gson GSON = new GsonBuilder().create();
 
     public static List<IdkNameFish> tradeMap = new ArrayList<>();
+
     public static FishManager manager() {
         if (manager == null) manager = new FishManager();
         return manager;
     }
 
     @Nullable
-    public FishData getFish(ItemStack itemStack)
-    {
+    public FishData getFish(ItemStack itemStack) {
         for (var data : tradeMap) {
             for (var data2 : data.getFishDataList()) {
                 if (data2.itemStack().equals(itemStack)) {
@@ -45,8 +45,7 @@ public class FishManager implements SimpleSynchronousResourceReloadListener {
     }
 
     @Nullable
-    public FishData getFish(Item item)
-    {
+    public FishData getFish(Item item) {
         for (var data : tradeMap) {
             for (var data2 : data.getFishDataList()) {
                 if (data2.itemStack().getItem().equals(item)) {
@@ -70,19 +69,21 @@ public class FishManager implements SimpleSynchronousResourceReloadListener {
         List<IdkNameFish> entityToResourceList = new ArrayList<>();
         // Clear Caches Here
 
-        for(Identifier id : manager.findResources("fishing", path -> path.equals("fish.json"))) {
-            try(InputStream stream = manager.getResource(id).getInputStream()) {
-                IdkNameFish.Builder builder = IdkNameFish.Builder.create();
-                Reader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-                JsonObject object = JsonHelper.deserialize(GSON, reader, JsonObject.class);
-                builder.deserialize(object);
-                System.out.println(object.toString());
-                entityToResourceList.add(builder.build());
-                tradeMap = ImmutableList.copyOf(entityToResourceList);
-                // Consume the stream however you want, medium, rare, or well done.
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
+        for (Identifier id : manager.findResources("fishing", path -> path.getPath().equals("fishing/fish.json")).keySet()) {
+            manager.getResource(id).ifPresent(resource -> {
+                try (InputStream stream = resource.getInputStream()) {
+                    IdkNameFish.Builder builder = IdkNameFish.Builder.create();
+                    Reader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+                    JsonObject object = JsonHelper.deserialize(GSON, reader, JsonObject.class);
+                    builder.deserialize(object);
+//                  System.out.println(object.toString());    //NOTE(Camper_Samu): debug I suppose, better silence this
+                    entityToResourceList.add(builder.build());
+                    tradeMap = ImmutableList.copyOf(entityToResourceList);
+                    // Consume the stream however you want, medium, rare, or well done.
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 }
