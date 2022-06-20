@@ -5,7 +5,7 @@ import net.minecraft.util.Identifier;
 
 public abstract class FishSerializer<T>
 {
-    private Identifier id;
+    private final Identifier id;
 
     public FishSerializer(Identifier id)
     {
