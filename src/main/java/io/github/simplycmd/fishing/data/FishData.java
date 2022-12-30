@@ -5,4 +5,5 @@ import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public record FishData(@NotNull EntityType<?> fish, ItemStack itemStack) {
+
 }

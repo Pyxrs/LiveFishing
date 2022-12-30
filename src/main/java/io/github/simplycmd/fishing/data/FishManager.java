@@ -4,7 +4,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import io.github.simplycmd.fishing.data.serialization.IdkNameFish;
+import io.github.simplycmd.fishing.data.serialization.NamedFish;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,22 +20,16 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
 public class FishManager implements SimpleSynchronousResourceReloadListener {
-    public static FishManager manager;
-    private static final Gson GSON = new GsonBuilder().create();
 
-    public static List<IdkNameFish> tradeMap = new ArrayList<>();
+    private static final Gson GSON = new GsonBuilder().create();
+    public static FishManager manager;
+    public static List<NamedFish> tradeMap = new ArrayList<>();
 
     public static FishManager manager() {
-        if (manager == null) manager = new FishManager();
+        if (manager == null) {
+            manager = new FishManager();
+        }
         return manager;
     }
 
@@ -66,17 +67,16 @@ public class FishManager implements SimpleSynchronousResourceReloadListener {
 
     @Override
     public void reload(ResourceManager manager) {
-        List<IdkNameFish> entityToResourceList = new ArrayList<>();
+        List<NamedFish> entityToResourceList = new ArrayList<>();
         // Clear Caches Here
 
         for (Identifier id : manager.findResources("fishing", path -> path.getPath().equals("fishing/fish.json")).keySet()) {
             manager.getResource(id).ifPresent(resource -> {
                 try (InputStream stream = resource.getInputStream()) {
-                    IdkNameFish.Builder builder = IdkNameFish.Builder.create();
+                    NamedFish.Builder builder = NamedFish.Builder.create();
                     Reader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
                     JsonObject object = JsonHelper.deserialize(GSON, reader, JsonObject.class);
                     builder.deserialize(object);
-//                  System.out.println(object.toString());    //NOTE(Camper_Samu): debug I suppose, better silence this
                     entityToResourceList.add(builder.build());
                     tradeMap = ImmutableList.copyOf(entityToResourceList);
                     // Consume the stream however you want, medium, rare, or well done.
@@ -86,4 +86,5 @@ public class FishManager implements SimpleSynchronousResourceReloadListener {
             });
         }
     }
+
 }
