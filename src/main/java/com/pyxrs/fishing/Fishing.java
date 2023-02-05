@@ -1,16 +1,22 @@
 package com.pyxrs.fishing;
 
-import static com.pyxrs.fishing.data.FishManager.manager;
+import java.util.HashMap;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.resource.ResourceType;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 
 public class Fishing implements ModInitializer {
-    public static final String MOD_ID = "fishing";
-
+    public static final HashMap<Item, EntityType<?>> FISH = new HashMap<Item, EntityType<?>>();
+    static {
+        FISH.put(Items.COD, EntityType.COD);
+        FISH.put(Items.SALMON, EntityType.SALMON);
+        FISH.put(Items.TROPICAL_FISH, EntityType.TROPICAL_FISH);
+        FISH.put(Items.PUFFERFISH, EntityType.PUFFERFISH);
+    }
+    
     @Override
     public void onInitialize() {
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(manager());
     }
 }

@@ -1,37 +1,31 @@
 package com.pyxrs.fishing.mixin;
 
-import com.pyxrs.fishing.data.FishManager;
+import com.pyxrs.fishing.Fishing;
+
 import java.util.Optional;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
+import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.world.World;
+import net.minecraft.util.Hand;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(FishingBobberEntity.class)
 public class LiveFishingMixin {
-
-    private static Optional<LivingEntity> matchFishEntity(World world, Item item) {
-        // Hardcoded because I couldn't think of a better way; can't use switch statements because this uses items
-        if (FishManager.manager().getFish(item) != null) {
-            return Optional.ofNullable((LivingEntity) FishManager.manager().getFish(item).fish().create(world));
-        } else {
-            return Optional.empty();
-        }
-    }
-
     @ModifyArg(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
     private Entity spawnFish(Entity original) {
         final FishingBobberEntity bobber = ((FishingBobberEntity) (Object) this);
         final Item item = (original instanceof ItemEntity) ? ((ItemEntity) original).getStack().getItem() : Items.AIR;
 
-        Optional<LivingEntity> fish = matchFishEntity(bobber.world, item);
+        Optional<LivingEntity> fish = Optional.ofNullable((LivingEntity) Fishing.FISH.get(item).create(bobber.getWorld()));
 
         // Return early if it is not a fish
         if (!fish.isPresent()) return original;
@@ -54,6 +48,19 @@ public class LiveFishingMixin {
             dy * yeetAmountUp * 0.5 + Math.sqrt(Math.sqrt(dx * dx + dy * dy + dz * dz)) * 0.08D,
             dz * yeetAmountForward
         );
+
+        var player = bobber.getPlayerOwner();
+        if (player != null) {
+            player.fishHook = null;
+            final ItemStack mainHandItem = player.getMainHandStack();
+            final ItemStack offHandItem = player.getOffHandStack();
+            if (mainHandItem.getItem() instanceof FishingRodItem) {
+                mainHandItem.damage(1, player, (p) -> p.sendToolBreakStatus(Hand.MAIN_HAND));
+            } else if (offHandItem.getItem() instanceof FishingRodItem) {
+                offHandItem.damage(1, player, (p) -> p.sendToolBreakStatus(Hand.OFF_HAND));
+            }
+        }
+        bobber.remove(Entity.RemovalReason.DISCARDED);
 
         return fish.get();
     }
