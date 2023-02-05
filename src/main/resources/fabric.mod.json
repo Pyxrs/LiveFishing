@@ -7,9 +7,9 @@
   "description": "Fish are reeled in alive! Gut them yourself or scoop them up in a bucket",
   "authors": [
     {
-      "name": "SimplyCmd",
+      "name": "Pyxrs",
       "contact": {
-        "homepage": "https://simplycmd.github.io/"
+        "homepage": "https://pyxrs.com/"
       }
     }
   ],
@@ -31,20 +31,32 @@
       "contact": {
         "homepage": "https://github.com/OffsetMonkey538"
       }
+    },
+    {
+      "name": "Camper_Samu",
+      "contact": {
+        "homepage": "https://github.com/CamperSamu"
+      }
+    },
+    {
+      "name": "Skyslycer",
+      "contact": {
+        "homepage": "https://github.com/Skyslycer"
+      }
     }
   ],
   "contact": {
-    "homepage": "https://simplycmd.com/live-fishing/",
-    "sources": "https://github.com/SimplyCmd/live-fishing"
+    "homepage": "https://pyxrs.com/live-fishing/",
+    "sources": "https://github.com/Pyxrs/live-fishing"
   },
 
-  "license": "MIT",
+  "license": "ACSL",
   "icon": "assets/fishing/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.simplycmd.fishing.Fishing"
+      "com.pyxrs.fishing.Fishing"
     ]
   },
   "mixins": [

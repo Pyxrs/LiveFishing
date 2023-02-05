@@ -1,10 +1,11 @@
-package io.github.simplycmd.fishing.data;
+package com.pyxrs.fishing.data;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import io.github.simplycmd.fishing.data.serialization.NamedFish;
+import com.pyxrs.fishing.Fishing;
+import com.pyxrs.fishing.data.serialization.NamedFish;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,7 +22,6 @@ import net.minecraft.util.JsonHelper;
 import org.jetbrains.annotations.Nullable;
 
 public class FishManager implements SimpleSynchronousResourceReloadListener {
-
     private static final Gson GSON = new GsonBuilder().create();
     public static FishManager manager;
     public static List<NamedFish> tradeMap = new ArrayList<>();
@@ -34,7 +34,7 @@ public class FishManager implements SimpleSynchronousResourceReloadListener {
     }
 
     @Nullable
-    public FishData getFish(ItemStack itemStack) {
+    public Fish getFish(ItemStack itemStack) {
         for (var data : tradeMap) {
             for (var data2 : data.getFishDataList()) {
                 if (data2.itemStack().equals(itemStack)) {
@@ -46,7 +46,7 @@ public class FishManager implements SimpleSynchronousResourceReloadListener {
     }
 
     @Nullable
-    public FishData getFish(Item item) {
+    public Fish getFish(Item item) {
         for (var data : tradeMap) {
             for (var data2 : data.getFishDataList()) {
                 if (data2.itemStack().getItem().equals(item)) {
@@ -62,7 +62,7 @@ public class FishManager implements SimpleSynchronousResourceReloadListener {
      */
     @Override
     public Identifier getFabricId() {
-        return new Identifier("fishing", "fish_loader");
+        return new Identifier(Fishing.MOD_ID, "fish_loader");
     }
 
     @Override
@@ -70,7 +70,7 @@ public class FishManager implements SimpleSynchronousResourceReloadListener {
         List<NamedFish> entityToResourceList = new ArrayList<>();
         // Clear Caches Here
 
-        for (Identifier id : manager.findResources("fishing", path -> path.getPath().equals("fishing/fish.json")).keySet()) {
+        for (Identifier id : manager.findResources(Fishing.MOD_ID, path -> path.getPath().equals(Fishing.MOD_ID + "/fish.json")).keySet()) {
             manager.getResource(id).ifPresent(resource -> {
                 try (InputStream stream = resource.getInputStream()) {
                     NamedFish.Builder builder = NamedFish.Builder.create();

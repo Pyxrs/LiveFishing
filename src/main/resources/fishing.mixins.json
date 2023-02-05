@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "io.github.simplycmd.fishing.mixin",
+  "package": "com.pyxrs.fishing.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "LiveFishingMixin"

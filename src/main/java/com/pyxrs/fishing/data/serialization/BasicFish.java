@@ -1,4 +1,4 @@
-package io.github.simplycmd.fishing.data.serialization;
+package com.pyxrs.fishing.data.serialization;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,8 +6,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import io.github.simplycmd.fishing.data.FishData;
-import io.github.simplycmd.fishing.data.FishSerializer;
+import com.pyxrs.fishing.Fishing;
+import com.pyxrs.fishing.data.Fish;
+
 import java.util.Objects;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -19,7 +20,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
 public class BasicFish {
-
     public static final Serializer SERIALIZER = new Serializer();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private final ItemStack itemStack;
@@ -60,17 +60,17 @@ public class BasicFish {
         return new ItemStack(item, JsonHelper.getInt(json, "count", 1));
     }
 
-    public FishData toFishData() {
-        return new FishData(entityType, itemStack);
+    public Fish toFishData() {
+        return new Fish(entityType, itemStack);
     }
 
-    public static class Serializer extends FishSerializer<BasicFish> {
+    public static class Serializer {
+        private final Identifier id;
 
         public Serializer() {
-            super(new Identifier("fishing", "basic"));
+            this.id = new Identifier(Fishing.MOD_ID, "basic");
         }
 
-        @Override
         public BasicFish deserialize(JsonObject object) {
 
             Builder builder = Builder.create();
@@ -80,9 +80,9 @@ public class BasicFish {
             return builder.build();
         }
 
-        @Override
         public JsonObject serialize(BasicFish trade) {
-            JsonObject object = super.serialize(trade);
+            JsonObject object = new JsonObject();
+            object.addProperty("type", this.id.toString());
             object.add("item", serializeItemStack(trade.itemStack));
             object.addProperty("entity", Registries.ENTITY_TYPE.getId(trade.entityType).toString());
             return object;

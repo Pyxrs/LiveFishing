@@ -2,18 +2,16 @@
 ![fish](https://i.imgur.com/pjbMudK.png)
 #### This mod adds an extra level of engagement with fishing. When a fish is caught, the actual fish is reeled in instead of the dead item.
 
+<br>
 
 # FAQ
-## - How can I add support for my mod?
-### Adding your custom fishing rod
-In your mod, simply overwrite the item tag `data/c/tags/items/fishing_rods.json` with your fishing rods
-## 
-### Adding your custom fish
+
+## How can I add support for my mod?
 Put a JSON file in `data/fishing/fishing` and follow the format of the [builtin json](https://github.com/SimplyCmd/Live-Fishing/blob/main/src/main/resources/data/fishing/fishing/fish.json)
 
+<br>
 
-# 
-## - Will you port this to forge?
-![no forge or ill steal your kneecaps](https://i.imgur.com/tf5W69k.png)
+## Will you port this to forge?
+No.
 
-*Though it would be really easy so if you want to do it yourself, feel free to.
+It would be really easy though, so feel free to do it yourself.
